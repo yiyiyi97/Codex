@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EHS管理系统</title>
+    <title>EHS管理系统（前后端一体）</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -48,43 +48,42 @@
           <div class="status-strip">
             <article class="status-chip">
               <span>系统当前LOTO状态</span>
-              <strong class="status-live">11套设备锁定中</strong>
+              <strong id="status-loto" class="status-live">加载中...</strong>
             </article>
             <article class="status-chip">
               <span>安全连锁屏蔽状态</span>
-              <strong class="status-alert">2项屏蔽生效中</strong>
+              <strong id="status-interlock" class="status-alert">加载中...</strong>
             </article>
           </div>
           <div class="cards">
-            <article class="card"><h3>待整改隐患</h3><p>28</p></article>
-            <article class="card"><h3>本月闭环隐患</h3><p>15</p></article>
+            <article class="card"><h3>待整改隐患</h3><p id="kpi-todo-hazard">0</p></article>
+            <article class="card"><h3>本月闭环隐患</h3><p id="kpi-closed-hazard">0</p></article>
             <article class="card"><h3>待审批特殊作业</h3><p>6</p></article>
-            <article class="card"><h3>安全异常事件</h3><p>3</p></article>
-            <article class="card"><h3>当前LOTO上锁</h3><p>11</p></article>
-            <article class="card"><h3>安全连锁屏蔽</h3><p>2</p></article>
-            <article class="card"><h3>作业白名单人数</h3><p>42</p></article>
+            <article class="card"><h3>安全异常事件</h3><p id="kpi-abnormal">0</p></article>
+            <article class="card"><h3>当前LOTO上锁</h3><p id="kpi-loto">0</p></article>
+            <article class="card"><h3>安全连锁屏蔽</h3><p id="kpi-interlock">0</p></article>
+            <article class="card"><h3>作业白名单人数</h3><p id="kpi-whitelist">0</p></article>
           </div>
         </section>
 
         <section id="hazard-submit" class="panel">
           <h2>提交隐患</h2>
-          <form class="form-grid">
-            <label>隐患标题<input type="text" placeholder="请输入隐患标题" /></label>
-            <label>区域<input type="text" placeholder="例如：储罐区" /></label>
-            <label>风险等级<select><option>高</option><option>中</option><option>低</option></select></label>
-            <label>发现时间<input type="datetime-local" /></label>
-            <label class="full">描述<textarea rows="4" placeholder="请输入隐患描述"></textarea></label>
-            <button type="button">提交</button>
+          <form class="form-grid" id="hazard-form">
+            <label>隐患标题<input name="title" type="text" placeholder="请输入隐患标题" required /></label>
+            <label>区域<input name="area" type="text" placeholder="例如：储罐区" required /></label>
+            <label>风险等级<select name="level"><option>高</option><option>中</option><option>低</option></select></label>
+            <label>发现时间<input name="found_at" type="datetime-local" required /></label>
+            <label class="full">描述<textarea name="description" rows="4" placeholder="请输入隐患描述" required></textarea></label>
+            <button type="submit">提交</button>
           </form>
+          <p class="hint" id="hazard-msg"></p>
         </section>
 
         <section id="hazard-close" class="panel">
           <h2>闭环隐患</h2>
           <table>
-            <thead><tr><th>编号</th><th>隐患</th><th>责任人</th><th>整改状态</th><th>操作</th></tr></thead>
-            <tbody>
-              <tr><td>HZ-001</td><td>消防通道堵塞</td><td>王工</td><td>待验收</td><td><button>闭环确认</button></td></tr>
-            </tbody>
+            <thead><tr><th>ID</th><th>隐患</th><th>区域</th><th>风险等级</th><th>发现时间</th><th>状态</th></tr></thead>
+            <tbody id="hazard-table-body"></tbody>
           </table>
         </section>
 
@@ -99,25 +98,23 @@
         <section id="key-ledger" class="panel"><h2>钥匙借用记录台账</h2><p>追溯借用历史、归还时间和状态。</p></section>
         <section id="interlock-apply" class="panel">
           <h2>安全连锁申请</h2>
-          <form class="form-grid">
-            <label>申请单号<input type="text" placeholder="例如：IL-2026-0021" /></label>
-            <label>申请人<input type="text" placeholder="请输入申请人" /></label>
-            <label>装置/区域<input type="text" placeholder="例如：加氢装置A区" /></label>
-            <label>计划开始<input type="datetime-local" /></label>
-            <label>计划结束<input type="datetime-local" /></label>
-            <label>风险等级<select><option>一级</option><option>二级</option><option>三级</option></select></label>
-            <label class="full">屏蔽原因<textarea rows="3" placeholder="说明安全连锁屏蔽必要性与风险控制措施"></textarea></label>
-            <button type="button">提交申请</button>
+          <form class="form-grid" id="interlock-form">
+            <label>申请单号<input name="code" type="text" placeholder="例如：IL-2026-0021" required /></label>
+            <label>申请人<input name="requester" type="text" placeholder="请输入申请人" required /></label>
+            <label>装置/区域<input name="area" type="text" placeholder="例如：加氢装置A区" required /></label>
+            <label>计划开始<input name="start_at" type="datetime-local" required /></label>
+            <label>计划结束<input name="end_at" type="datetime-local" required /></label>
+            <label>风险等级<select name="level"><option>一级</option><option>二级</option><option>三级</option></select></label>
+            <label class="full">屏蔽原因<textarea name="reason" rows="3" placeholder="说明安全连锁屏蔽必要性与风险控制措施" required></textarea></label>
+            <button type="submit">提交申请</button>
           </form>
+          <p class="hint" id="interlock-msg"></p>
         </section>
         <section id="interlock-ledger" class="panel">
           <h2>安全连锁后台台账</h2>
           <table>
             <thead><tr><th>申请单号</th><th>装置点位</th><th>申请人</th><th>审批状态</th><th>屏蔽状态</th><th>截止时间</th></tr></thead>
-            <tbody>
-              <tr><td>IL-2026-0019</td><td>反应釜R-2201高压联锁</td><td>李工</td><td>已批准</td><td>屏蔽中</td><td>2026-02-13 20:00</td></tr>
-              <tr><td>IL-2026-0020</td><td>压缩机C-08超温联锁</td><td>周工</td><td>待审批</td><td>未生效</td><td>2026-02-14 08:00</td></tr>
-            </tbody>
+            <tbody id="interlock-table-body"></tbody>
           </table>
         </section>
         <section id="staff-whitelist" class="panel"><h2>人员作业白名单资质</h2><p>维护特种作业人员资质有效期与授权。</p></section>

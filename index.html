@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EHS管理系统</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <h1>EHS管理系统</h1>
+        <nav>
+          <button class="menu-item active" data-section="dashboard">首页数据看板</button>
+
+          <p class="menu-group">隐患管理</p>
+          <button class="menu-item" data-section="hazard-submit">提交隐患</button>
+          <button class="menu-item" data-section="hazard-close">闭环隐患</button>
+          <button class="menu-item" data-section="hazard-ledger">隐患台账</button>
+
+          <p class="menu-group">特殊作业申请</p>
+          <button class="menu-item" data-section="work-submit">提交特殊作业申请</button>
+          <button class="menu-item" data-section="work-approve">审批特殊作业申请</button>
+          <button class="menu-item" data-section="work-ledger">特殊作业台账</button>
+
+          <p class="menu-group">安全异常事件记录</p>
+          <button class="menu-item" data-section="incident-submit">安全异常事件提交</button>
+          <button class="menu-item" data-section="incident-ledger">安全异常事件台账</button>
+
+          <p class="menu-group">LOTO钥匙管理</p>
+          <button class="menu-item" data-section="key-borrow">钥匙借用</button>
+          <button class="menu-item" data-section="loto-active">当前已LOTO系统台账</button>
+          <button class="menu-item" data-section="key-ledger">钥匙借用记录台账</button>
+
+          <p class="menu-group">安全连锁管理</p>
+          <button class="menu-item" data-section="interlock-apply">安全连锁申请</button>
+          <button class="menu-item" data-section="interlock-ledger">安全连锁后台台账</button>
+
+          <p class="menu-group">人员管理</p>
+          <button class="menu-item" data-section="staff-whitelist">人员作业白名单资质</button>
+          <button class="menu-item" data-section="staff-permission">人员权限管理</button>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <section id="dashboard" class="panel active">
+          <h2>首页数据看板</h2>
+          <div class="status-strip">
+            <article class="status-chip">
+              <span>系统当前LOTO状态</span>
+              <strong class="status-live">11套设备锁定中</strong>
+            </article>
+            <article class="status-chip">
+              <span>安全连锁屏蔽状态</span>
+              <strong class="status-alert">2项屏蔽生效中</strong>
+            </article>
+          </div>
+          <div class="cards">
+            <article class="card"><h3>待整改隐患</h3><p>28</p></article>
+            <article class="card"><h3>本月闭环隐患</h3><p>15</p></article>
+            <article class="card"><h3>待审批特殊作业</h3><p>6</p></article>
+            <article class="card"><h3>安全异常事件</h3><p>3</p></article>
+            <article class="card"><h3>当前LOTO上锁</h3><p>11</p></article>
+            <article class="card"><h3>安全连锁屏蔽</h3><p>2</p></article>
+            <article class="card"><h3>作业白名单人数</h3><p>42</p></article>
+          </div>
+        </section>
+
+        <section id="hazard-submit" class="panel">
+          <h2>提交隐患</h2>
+          <form class="form-grid">
+            <label>隐患标题<input type="text" placeholder="请输入隐患标题" /></label>
+            <label>区域<input type="text" placeholder="例如：储罐区" /></label>
+            <label>风险等级<select><option>高</option><option>中</option><option>低</option></select></label>
+            <label>发现时间<input type="datetime-local" /></label>
+            <label class="full">描述<textarea rows="4" placeholder="请输入隐患描述"></textarea></label>
+            <button type="button">提交</button>
+          </form>
+        </section>
+
+        <section id="hazard-close" class="panel">
+          <h2>闭环隐患</h2>
+          <table>
+            <thead><tr><th>编号</th><th>隐患</th><th>责任人</th><th>整改状态</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>HZ-001</td><td>消防通道堵塞</td><td>王工</td><td>待验收</td><td><button>闭环确认</button></td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="hazard-ledger" class="panel"><h2>隐患台账</h2><p>按区域、等级、状态追踪隐患全流程记录。</p></section>
+        <section id="work-submit" class="panel"><h2>提交特殊作业申请</h2><p>录入动火、高处、受限空间等特殊作业申请。</p></section>
+        <section id="work-approve" class="panel"><h2>审批特殊作业申请</h2><p>按流程进行班组、安环和管理层审批。</p></section>
+        <section id="work-ledger" class="panel"><h2>特殊作业台账</h2><p>查询历史申请、审批结果和作业归档。</p></section>
+        <section id="incident-submit" class="panel"><h2>安全异常事件提交</h2><p>快速上报未遂事件、轻伤及其他异常。</p></section>
+        <section id="incident-ledger" class="panel"><h2>安全异常事件台账</h2><p>统计异常类型、发生频次与整改措施。</p></section>
+        <section id="key-borrow" class="panel"><h2>钥匙借用</h2><p>登记LOTO钥匙借还信息与借用人。</p></section>
+        <section id="loto-active" class="panel"><h2>当前已LOTO系统台账</h2><p>实时查看已上锁设备与责任人员。</p></section>
+        <section id="key-ledger" class="panel"><h2>钥匙借用记录台账</h2><p>追溯借用历史、归还时间和状态。</p></section>
+        <section id="interlock-apply" class="panel">
+          <h2>安全连锁申请</h2>
+          <form class="form-grid">
+            <label>申请单号<input type="text" placeholder="例如：IL-2026-0021" /></label>
+            <label>申请人<input type="text" placeholder="请输入申请人" /></label>
+            <label>装置/区域<input type="text" placeholder="例如：加氢装置A区" /></label>
+            <label>计划开始<input type="datetime-local" /></label>
+            <label>计划结束<input type="datetime-local" /></label>
+            <label>风险等级<select><option>一级</option><option>二级</option><option>三级</option></select></label>
+            <label class="full">屏蔽原因<textarea rows="3" placeholder="说明安全连锁屏蔽必要性与风险控制措施"></textarea></label>
+            <button type="button">提交申请</button>
+          </form>
+        </section>
+        <section id="interlock-ledger" class="panel">
+          <h2>安全连锁后台台账</h2>
+          <table>
+            <thead><tr><th>申请单号</th><th>装置点位</th><th>申请人</th><th>审批状态</th><th>屏蔽状态</th><th>截止时间</th></tr></thead>
+            <tbody>
+              <tr><td>IL-2026-0019</td><td>反应釜R-2201高压联锁</td><td>李工</td><td>已批准</td><td>屏蔽中</td><td>2026-02-13 20:00</td></tr>
+              <tr><td>IL-2026-0020</td><td>压缩机C-08超温联锁</td><td>周工</td><td>待审批</td><td>未生效</td><td>2026-02-14 08:00</td></tr>
+            </tbody>
+          </table>
+        </section>
+        <section id="staff-whitelist" class="panel"><h2>人员作业白名单资质</h2><p>维护特种作业人员资质有效期与授权。</p></section>
+        <section id="staff-permission" class="panel"><h2>人员权限管理</h2><p>配置角色权限与菜单访问范围。</p></section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
